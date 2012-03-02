@@ -220,6 +220,16 @@ ALT159 = \u0192 = f = (function(obj) {
       opts.symbol = '';
       return f(this.stringy).money(opts);
     }
+  
+  , titleize: function(){
+    if( !this.stringy ){return this.stringy;}
+    var parts = this.stringy.split(/ /);
+    var mapped = [];
+    for (var i = 0; i < parts.length; i++) 
+      mapped.push( f(parts[i]).capitalize() );
+    return mapped.join(" ");
+  }
+
   };
 
   var Lagniappe = function(obj) {
@@ -249,8 +259,22 @@ ALT159 = \u0192 = f = (function(obj) {
     },
   };
 
+  var Datey = function(obj) { this.datey = obj;  };
+  Datey.prototype = {  };
+
+
+  var Numbery = function(obj) { this.numbery = obj; };
+  Numbery.prototype = {  
+    isOdd:function(){ return (this.numbery % 2) === 1 },
+    isEven:function(){ return (this.numbery % 2) === 0 },
+  };
+
+
+
   var ALT159 = function(obj) {
     if(typeof obj === "string") return new Stringy(obj);
+    if(toString.call(obj) === "[object Date]") return new Datey(obj);
+    if(toString.call(obj) === "[object Number]") return new Numbery(obj);
     if(obj === void 0) return new Lagniappe();
     return null;
   }
